@@ -1,0 +1,23 @@
+{
+  "name": "e-commerce-team3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yaffa-Solutions/e-commerce-team3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yaffa-Solutions/e-commerce-team3/issues"
+  },
+  "homepage": "https://github.com/Yaffa-Solutions/e-commerce-team3#readme",
+  "dependencies": {
+    "jest": "^30.0.4"
+  }
+}
