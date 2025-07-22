@@ -164,6 +164,23 @@ listView.addEventListener("click", () => {
   renderProducts(products);
 });
 
+
+searchInput.addEventListener("input", () => {
+  const keyword = searchInput.value.trim().toLowerCase();
+  if (keyword === "") {
+    renderProducts(products);
+    return;
+  }
+  const filtered = products.filter(product => {
+    return (
+      product.title.toLowerCase().includes(keyword) ||
+      product.description.toLowerCase().includes(keyword)
+    );
+  });
+
+  renderProducts(filtered);
+});
+
 function filterProductsByCategory(products, categoryName, categories) {
   if (categoryName === "All") {
     return products;
@@ -181,22 +198,13 @@ function filterProductsByCategory(products, categoryName, categories) {
   // }
   // const category = categories.find((cat) => cat.categorie === categoryName);
   // if (!category) return [];
-  // return filtered.filter((product) => product.categoryId === category.id);
+  // return products.filter((product) => product.categoryId === category.id);
 
 //   if (minPrice !== null && minPrice !== undefined) {
 //     filtered = filtered.filter((p) => p.price >= minPrice);
 //   }
 //   if (maxPrice !== null && maxPrice !== undefined) {
 //     filtered = filtered.filter((p) => p.price <= maxPrice);
-//   }
-
-//   if (searchValue.trim() !== "") {
-//     const term = searchValue.toLowerCase();
-//     filtered = filtered.filter(
-//       (p) =>
-//         p.title.toLowerCase().includes(term) ||
-//         p.description.toLowerCase().includes(term)
-//     );
 //   }
 
 //   return filtered;
