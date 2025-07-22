@@ -1,11 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="navbar bg-white shadow-md px-4 md:px-6">
+        <div class="flex-1 flex items-center gap-4">
+          <a class="text-2xl font-semibold text-[#48cae4] tracking-tight"
+            >ShopMart</a
+          >
+
+          <ul
+            class="menu menu-horizontal px-4 text-sm font-medium hidden md:flex"
+          >
+            <li><a href="../../index.html">Shop</a></li>
+            <li><a href="sellerPage.html">Seller Dashboard</a></li>
+          </ul>
+
+          <div class="dropdown dropdown-left md:hidden">
+            <label tabindex="0" class="btn btn-ghost btn-square">
+              <i class="ri-menu-line text-xl text-gray-600"></i>
+            </label>
+            <ul
+              tabindex="0"
+              class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-white rounded-box w-40"
+            >
+              <li><a href="/index.html">Shop</a></li>
+              <li><a href="./sellerPage.html">Seller Dashboard</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex-none w-70 max-w-md mx-4 md:mx-0">
+          <div class="relative w-70">
+            <input
+              type="search"
+              placeholder="Search products..."
+              class="input input-bordered w-full pl-10 text-sm md:text-base bg-white search-input"
+            />
+            <i
+              class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"
+            ></i>
+          </div>
+        </div>
+
+        <div class="flex-none gap-4 ml-0 md:ml-6 flex items-center">
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+              <div class="indicator">
+                <i class="ri-shopping-cart-line text-xl"></i>
+                <span
+                  class="badge badge-sm indicator-item bg-blue-400 text-white num-products"
+                ></span>
+
+                
+              </div>
+            </div>
+            <div
+              tabindex="0"
+              class="card card-compact dropdown-content bg-white z-10 mt-3 w-52 shadow"
+            >
+              <div class="card-body">
+                <span class="text-lg font-bold num-products"></span>
+                <span class="text-info subtotal"></span>
+                <div class="card-actions">
+                  <button
+                    class="btn btn-primary btn-block bg-[#48cae4] border-[#48cae4] text-white"
+                  >
+                    View cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown dropdown-end">
+            <div
+              tabindex="0"
+              role="button"
+              class="btn btn-ghost btn-circle avatar"
+            >
+              <div
+                class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"
+              >
+                <i class="ri-user-line text-blue-500 text-lg"></i>
+              </div>
+            </div>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content bg-white rounded-box z-10 mt-3 w-52 p-2 shadow"
+            >
+              <li>
+                <a class="justify-between"
+                  >Profile <span class="badge">New</span></a
+                >
+              </li>
+              <li><a>Settings</a></li>
+              <li><a>Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="max-w-4xl mx-auto mt-10 p-4 bg-white rounded-lg shadow">
+      <h2 class="text-xl font-bold mb-6 text-gray-800">Your Shopping Cart</h2>
+      <div id="cart-items" class="space-y-4"></div>
+      <div class="mt-8 flex flex-col items-end space-y-4">
+        <span class="text-xl">Total price: </span>
+        <span class="text-xl total-price"> </span>
+
+        <button
+          class="btn bg-[#48cae4] text-white font-semibold py-2 px-6 rounded hover:bg-[#00b4d8] purchase"
+          id="buy-button"
+        >
+          Purchase
+        </button>
+      </div>
+    </main>
+    <script src="/public/data.js"></script>
+    <script src="/public/main.js"></script>
+    <script src="/public/cart.js"></script>
+  </body>
 </html>

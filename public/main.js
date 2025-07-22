@@ -7,6 +7,8 @@ const searchInput = document.querySelector(".search-input");
 const gridView = document.getElementById("gridView");
 const listView = document.getElementById("listView");
 
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 function renderCategories() {
   categories.forEach((cat) => {
     const option = document.createElement("option");
@@ -110,6 +112,17 @@ function renderProducts(array) {
       "text-white",
     ]);
     buyBtn.textContent = "Buy Now";
+    buyBtn.addEventListener("click", () => {
+  const isAlreadyInCart = cart.some((item) => item.id === product.id);
+  if (!isAlreadyInCart) {
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("added to cart ");
+  } else {
+    alert("already in cart");
+  }
+});
+
 
     const priceSpan = createElement("span", [
       "text-sm",
