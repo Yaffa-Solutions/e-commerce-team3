@@ -17,7 +17,7 @@
     "url": "https://github.com/Yaffa-Solutions/e-commerce-team3/issues"
   },
   "homepage": "https://github.com/Yaffa-Solutions/e-commerce-team3#readme",
-  "dependencies": {
-    "jest": "^30.0.4"
+  "devDependencies": {
+    "jest": "^30.0.5"
   }
 }

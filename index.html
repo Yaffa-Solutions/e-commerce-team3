@@ -50,7 +50,7 @@
             <input
               type="search"
               placeholder="Search products..."
-              class="input input-bordered w-full pl-10 text-sm md:text-base bg-white"
+              class="input input-bordered w-full pl-10 text-sm md:text-base bg-white search-input"
             />
             <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
           </div>
@@ -110,22 +110,49 @@
         <div class="mb-6">
           <h3 class="font-semibold mb-2 text-sm">Price</h3>
           <div class="flex items-center space-x-2">
-            <input type="number" min="0" placeholder="Min" class="input input-bordered w-20" />
-            <input type="number" min="0" placeholder="Max" class="input input-bordered w-20" />
+            <input type="number" min="0" placeholder="Min" class="input input-bordered w-20 .price-min" />
+            <input type="number" min="0" placeholder="Max" class="input input-bordered w-20 .price-max" />
           </div>
-          <button class="btn btn-sm btn-primary mt-3 w-full bg-[#48cae4] border-[#48cae4] text-white">Apply</button>
+          <button class="btn btn-sm btn-primary mt-3 w-full bg-[#48cae4] border-[#48cae4] text-white  .apply-price-btn">Apply</button>
         </div>
 
         <div>
           <h3 class="font-semibold mb-2 text-sm">Category</h3>
-          <select class="select select-bordered w-full">
+<select class="select select-bordered w-full category-filter">
             <option value="All">All Categories</option>
-            <option value="beauty">beauty</option>
-            <option value="furniture">furniture</option>
-            <option value="fragrances">fragrances</option>
           </select>
         </div>
       </aside>
+      <main class="p-6 flex-1">
+
+      <h2 class="text-2xl font-bold text-gray-800 mb-6"> Products</h2>
+       <div class="flex items-center space-x-3">
+                        <span class="text-sm text-gray-500">View:</span>
+                        <div class="flex bg-gray-100 rounded-lg p-1">
+                            <button id="gridView" class="px-3 py-1 rounded text-white bg-[#48cae4]">
+                                <div class="w-4 h-4 flex items-center justify-center">
+                                    <i class="ri-grid-line text-sm"></i>
+                                </div>
+                            </button>
+                            <button id="listView" class="px-3 py-1 rounded text-gray-600">
+                                <div class="w-4 h-4 flex items-center justify-center">
+                                    <i class="ri-list-check text-sm"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 products-container">
+
+      </div>
+      </main>
+
+
+      <script src="./public/data.js"></script>
+      <script src="./public/pureFunction.js"></script>
+       <script src="./public/main.js"></script>
+
+
+
   
   </body>
 </html>
