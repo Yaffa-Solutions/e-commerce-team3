@@ -202,26 +202,28 @@ function filterProductsByCategory(products, categoryName, categories) {
   if (!category) return [];
   return products.filter((product) => product.categoryId === category.id);
 }
-// function filterProducts(products, filters) {
-//   const { categoryName, categories, minPrice, maxPrice, searchValue } = filters;
-//   let filtered = products;
+function filterByPrice(products, minPrice, maxPrice) {
+  let filteredPrice = [...products];
 
-  // if (categoryName === "All") {
-  //   return filtered;
-  // }
-  // const category = categories.find((cat) => cat.categorie === categoryName);
-  // if (!category) return [];
-  // return products.filter((product) => product.categoryId === category.id);
+  if (minPrice !== null && minPrice !== undefined ) {
+    return filteredPrice.filter(p => p.price >= minPrice);
+  }
 
-//   if (minPrice !== null && minPrice !== undefined) {
-//     filtered = filtered.filter((p) => p.price >= minPrice);
-//   }
-//   if (maxPrice !== null && maxPrice !== undefined) {
-//     filtered = filtered.filter((p) => p.price <= maxPrice);
-//   }
+  if (maxPrice !== null && maxPrice !== undefined ) {
+     return filteredPrice.filter(p => p.price <= maxPrice);
+  }
 
-//   return filtered;
-// }
+}
+priceMinInput.addEventListener("input", applyPriceFilter);
+priceMaxInput.addEventListener("input", applyPriceFilter);
+
+function applyPriceFilter() {
+  const min = priceMinInput.value;
+  const max = priceMaxInput.value;
+  const result = filterByPrice(products, min, max);
+  renderProducts(result);
+}
+
 
 categorySelect.addEventListener("change", (e) => {
   const selectedCategory = e.target.value;
@@ -232,6 +234,7 @@ categorySelect.addEventListener("change", (e) => {
   );
   renderProducts(filteredProducts);
 });
+
 
 renderCategories();
 renderProducts(products);
