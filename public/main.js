@@ -1,179 +1,240 @@
-import {products , categories} from './data.js';
+const categorySelect = document.querySelector(".category-filter");
+const productsContainer = document.querySelector(".products-container");
+const priceMinInput = document.querySelector(".price-min");
+const priceMaxInput = document.querySelector(".price-max");
+const applyPriceBtn = document.querySelector(".apply-price-btn");
+const searchInput = document.querySelector(".search-input");
+const gridView = document.getElementById("gridView");
+const listView = document.getElementById("listView");
 
-const getElement =(elem)=> document.querySelector(elem);
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-
-
-const renderSelect =()=>{
-  const SelectCategories = getElement('#SelectCategories');
-  categories.forEach(c=>{
-     const categoryOption=document.createElement('option');
-      categoryOption.textContent =c.categoryName;
-      categoryOption.setAttribute('data-id',c.categoryId);
-      SelectCategories.appendChild(categoryOption);
+function renderCategories() {
+  categories.forEach((cat) => {
+    const option = document.createElement("option");
+    option.value = cat.categorie;
+    option.textContent = cat.categorie;
+    categorySelect.appendChild(option);
   });
-
 }
 
-const RenderListProducts=(lst)=>{
-    
-    const tbodyProducts = document.getElementById('tbodyProducts');
+function createElement(tag, classes = []) {
+  const el = document.createElement(tag);
+  classes.forEach((cl) => el.classList.add(cl));
+  return el;
+}
 
-    tbodyProducts.innerHTML =``;
-    lst.length > 0 ?
-    lst.forEach(product => {
-    if(product.id > 0 ){
-           const tr = document.createElement('tr');
-        if(product.image){
-            const td = createCells('');
-            const imgProduct=document.createElement('img');
-            imgProduct.src=product.image;
-            td.appendChild(imgProduct);
-            td.className = `mask mask-squircle h-12 w-12`;
-            tr.appendChild(td);
-        }
-       // tr.appendChild(createCells(product.id)); 
-        tr.setAttribute('data-id',product.id);
-        tr.appendChild(createCells(product.title,'font-semibold'));
-        tr.appendChild(createCells(product.description));
-        tr.appendChild(createCells(getCategory(product.categoryId).categoryName));
-        tr.appendChild(createCells(product.price));
-        tr.appendChild(createButton('Edit','btn btn-ghost btn-xs mt-4','editBtn'));
-        tr.appendChild(createButton('Delete','btn btn-ghost btn-xs mt-4','deleteBtn'));
-       
-        tbodyProducts.appendChild(tr);
-    }else{
-      console.log('the product id is null');
+function elementsAppender(parent, children) {
+  children.forEach((child) => parent.appendChild(child));
+}
+
+function getCategoryNameById(id) {
+  const category = categories.find((cat) => cat.id === id);
+  return category ? category.categorie : "";
+}
+
+function renderProducts(array) {
+  productsContainer.innerHTML = "";
+
+  array.forEach((product) => {
+    const categoryName = getCategoryNameById(product.categoryId, categories);
+
+    const cardClasses = [
+      "card",
+      "bg-white",
+      "shadow-md",
+      "hover:shadow-lg",
+      "transition",
+      "duration-300",
+      "text-sm",
+    ];
+
+    if (currentView === "list") {
+      cardClasses.push("flex", "items-center", "space-x-4", "p-4");
     }
 
-    }) : console.log('the length list 0');
-    
-}
+    const card = createElement("div", cardClasses);
 
-const createCells = (text, classname)=>{
-      const td = document.createElement('td');
-      td.textContent = text;
-      if(classname) td.className=classname;
-      return td;
-};
-
-function createButton (text , className='' , id =''){
-    const btn = document.createElement('button');
-    if(id) btn.id=id;
-    if(className) btn.className = className;
-    if(text) btn.textContent= text;
- 
-    return btn;
-}
-
-window.onload =()=>{
-    const retrievedJsonString = localStorage.getItem('myProducts');
-    const retrievedProducts = JSON.parse(retrievedJsonString);
-    retrievedProducts ?  RenderListProducts(retrievedProducts): RenderListProducts(products);
-   //RenderListProducts(products);
-    renderSelect();
-}
-
-
-function getNonEmptyInputValues(form) {
-  const data = {};
-  //const inputs = Array.from(form.querySelectorAll('input, select'));
-    const inputs = form.querySelectorAll('input, select');
-  inputs.forEach(input => {
-    const value = input.value.trim();
-    if ( value !== '' && !(input.tagName.toLowerCase() === 'select' && input.selectedIndex === 0) ) {
-      const key =  input.name || 'unknown';
-      if(input.tagName.toLowerCase() === 'select'){
-        const selectedOption = input.options[input.selectedIndex];
-        data[key]= selectedOption.getAttribute('data-id');
-      }else{
-        data[key]=value;
-      }  
+    const figure = createElement("figure");
+    const imgClasses = ["object-cover"];
+    if (currentView === "grid") {
+      imgClasses.push("w-full", "h-40");
+    } else {
+      imgClasses.push("w-24", "h-24", "flex-shrink-0", "rounded");
     }
-  });
-  return data;
-}
+    const img = createElement("img", imgClasses);
+    img.src = product.image;
+    img.alt = product.title;
+    figure.appendChild(img);
 
-const getCategory =(id)=>{ return (id) ? categories.find(c=>c.categoryId == id) : ''; }
+    const cardBodyClasses = ["card-body"];
+    if (currentView === "grid") {
+      cardBodyClasses.push("p-4");
+    } else {
+      cardBodyClasses.push("flex-1");
+    }
+    const cardBody = createElement("div", cardBodyClasses);
 
-const form = document.getElementById('addProductForm');
-const addBtn = getElement('#AddBtn');
+    const div = createElement("div", [
+      "flex",
+      "items-center",
+      "justify-between",
+      "mb-2",
+    ]);
+    const title = createElement("h2", ["card-title", "text-base"]);
+    title.textContent = product.title;
 
-addBtn.addEventListener('click', e => {
-  //e.preventDefault(); 
+    const categorySpan = createElement("span", ["text-xs", "text-gray-500"]);
+    categorySpan.textContent = categoryName;
 
-  debugger;
-  const formData = getNonEmptyInputValues(form);
-  console.log('Collected form data:', formData);
+    elementsAppender(div, [title, categorySpan]);
 
-  const maxIdProduct = Math.max(...products.map(p=>p.id));
-  formData.categoryId = getCategory(formData.categoryId).categoryId;
-  formData.id = maxIdProduct+1;
-  products.push({...formData});
-  console.log(products);
-  ///convert the array to json 
-  const jsonString = JSON.stringify(products);
-  localStorage.setItem('myProducts',jsonString);
-  form.reset();
+    const desc = createElement("p", ["text-xs", "text-gray-600"]);
+    desc.textContent = product.description;
 
-});
+    const cardActions = createElement("div", [
+      "card-actions",
+      "flex",
+      "items-center",
+      "justify-between",
+      "mt-3",
+    ]);
 
+    if (currentView === "list") {
+      cardActions.classList.add("w-48", "flex-shrink-0");
+    }
 
-const cancelModalBtn = getElement('#cancelModalBtn');
-const ModelAddProduct = getElement('#ModelAddProduct');
-
-cancelModalBtn.addEventListener('click',(e)=>{
-  e.preventDefault();
- // ModelAddProduct.classList.add('hidden');
- ModelAddProduct.style.display='none';
- document.getElementById('add-product-modal').checked = false;
-});
-
-const addproductmodalbtn = getElement('#add-product-modal');
-
-addproductmodalbtn.addEventListener('click',()=>{
-  //ModelAddProduct.classList.remove('hidden');
-ModelAddProduct.style.display='block';
-
-});
-
-
-const inputSearch = getElement('#inputSearch');
-let productsListCopy =[...products ];
-
-inputSearch.addEventListener('input',()=>{
-
-  ///clean the table
-   refershList();
-   //return the list filter 
-   debugger;
-  const lstfiltered=searchByProductName(productsListCopy,inputSearch.value);
-  RenderListProducts(lstfiltered);
-});
-
-const searchByProductName=(lstProducts,text)=>{
-    const lst = lstProducts.filter(p=>p.title.toLowerCase().trim().includes(text.toLowerCase().trim()));
-    return lst;
-}
-
-const refershList=()=>{
-  RenderListProducts([{}]);
-}
-
-/// filter 
-///when make search in filter --> you must make search list categories 
-
-const SelectCategories = getElement('#SelectCategories');
-
- SelectCategories.addEventListener('change',()=>{
-  inputSearch.value='';
-  if(SelectCategories.selectedIndex > 0)  {
-  const categoryId= SelectCategories.options[SelectCategories.selectedIndex].getAttribute('data-id');
-    productsListCopy=products.filter(p=>p.categoryId == categoryId);
-  const lst = products.filter(p=>p.categoryId == categoryId);
-  RenderListProducts(lst);
-
-  }else{
-    RenderListProducts(products);
+    const buyBtn = createElement("button", [
+      "btn",
+      "btn-sm",
+      "bg-[#48cae4]",
+      "hover:bg-blue-600",
+      "text-white",
+    ]);
+    buyBtn.textContent = "Buy Now";
+    buyBtn.addEventListener("click", () => {
+  const isAlreadyInCart = cart.some((item) => item.id === product.id);
+  if (!isAlreadyInCart) {
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("added to cart ");
+  } else {
+    alert("already in cart");
   }
- });
+});
+
+
+    const priceSpan = createElement("span", [
+      "text-sm",
+      "font-semibold",
+      "text-gray-700",
+    ]);
+    priceSpan.textContent = `$${product.price}`;
+
+    elementsAppender(cardActions, [buyBtn, priceSpan]);
+
+    if (currentView === "grid") {
+      elementsAppender(cardBody, [div, desc, cardActions]);
+      elementsAppender(card, [figure, cardBody]);
+    } else {
+      elementsAppender(cardBody, [div, desc]);
+      elementsAppender(card, [figure, cardBody, cardActions]);
+    }
+
+    productsContainer.appendChild(card);
+  });
+}
+
+let currentView = "grid";
+
+productsContainer.classList.add("grid", "grid-cols-3", "gap-4");
+
+gridView.addEventListener("click", () => {
+  currentView = "grid";
+
+  productsContainer.classList.remove("flex", "flex-col", "space-y-4");
+  productsContainer.classList.add("grid", "grid-cols-3", "gap-4");
+
+  gridView.classList.add("bg-[#48cae4]", "text-white");
+  gridView.classList.remove("text-gray-600");
+
+  listView.classList.remove("bg-[#48cae4]", "text-white");
+  listView.classList.add("text-gray-600");
+
+  renderProducts(products);
+});
+
+listView.addEventListener("click", () => {
+  currentView = "list";
+  productsContainer.classList.remove("grid", "grid-cols-3", "gap-4");
+  productsContainer.classList.add("flex", "flex-col", "space-y-4");
+
+  listView.classList.add("bg-[#48cae4]", "text-white");
+  gridView.classList.remove("bg-[#48cae4]", "text-white");
+  gridView.classList.add("text-gray-600");
+  listView.classList.remove("text-gray-600");
+
+  renderProducts(products);
+});
+
+
+searchInput.addEventListener("input", () => {
+  const keyword = searchInput.value.trim().toLowerCase();
+  if (keyword === "") {
+    renderProducts(products);
+    return;
+  }
+  const filtered = products.filter(product => {
+    return (
+      product.title.toLowerCase().includes(keyword) ||
+      product.description.toLowerCase().includes(keyword)
+    );
+  });
+
+  renderProducts(filtered);
+});
+
+function filterProductsByCategory(products, categoryName, categories) {
+  if (categoryName === "All") {
+    return products;
+  }
+  const category = categories.find((cat) => cat.categorie === categoryName);
+  if (!category) return [];
+  return products.filter((product) => product.categoryId === category.id);
+}
+function filterByPrice(products, minPrice, maxPrice) {
+  let filteredPrice = [...products];
+
+  if (minPrice !== null && minPrice !== undefined ) {
+    return filteredPrice.filter(p => p.price >= minPrice);
+  }
+
+  if (maxPrice !== null && maxPrice !== undefined ) {
+     return filteredPrice.filter(p => p.price <= maxPrice);
+  }
+
+}
+priceMinInput.addEventListener("input", applyPriceFilter);
+priceMaxInput.addEventListener("input", applyPriceFilter);
+
+function applyPriceFilter() {
+  const min = priceMinInput.value;
+  const max = priceMaxInput.value;
+  const result = filterByPrice(products, min, max);
+  renderProducts(result);
+}
+
+
+categorySelect.addEventListener("change", (e) => {
+  const selectedCategory = e.target.value;
+  const filteredProducts = filterProductsByCategory(
+    products,
+    selectedCategory,
+    categories
+  );
+  renderProducts(filteredProducts);
+});
+
+
+renderCategories();
+renderProducts(products);
