@@ -19,8 +19,11 @@ const RenderListProducts=(lst)=>{
     
     const tbodyProducts = document.getElementById('tbodyProducts');
 
+    tbodyProducts.innerHTML =``;
+    lst.length > 0 ?
     lst.forEach(product => {
-     const tr = document.createElement('tr');
+    if(product.id > 0 ){
+           const tr = document.createElement('tr');
         if(product.image){
             const td = createCells('');
             const imgProduct=document.createElement('img');
@@ -39,7 +42,12 @@ const RenderListProducts=(lst)=>{
         tr.appendChild(createButton('Delete','btn btn-ghost btn-xs mt-4','deleteBtn'));
        
         tbodyProducts.appendChild(tr);
-    });
+    }else{
+      console.log('the product id is null');
+    }
+
+    }) : console.log('the length list 0');
+    
 }
 
 const createCells = (text, classname)=>{
@@ -62,6 +70,7 @@ window.onload =()=>{
     const retrievedJsonString = localStorage.getItem('myProducts');
     const retrievedProducts = JSON.parse(retrievedJsonString);
     retrievedProducts ?  RenderListProducts(retrievedProducts): RenderListProducts(products);
+   //RenderListProducts(products);
     renderSelect();
 }
 
@@ -85,9 +94,7 @@ function getNonEmptyInputValues(form) {
   return data;
 }
 
-const getCategory =(id)=>{
-    return (id) ? categories.find(c=>c.categoryId == id) : '';
-   }
+const getCategory =(id)=>{ return (id) ? categories.find(c=>c.categoryId == id) : ''; }
 
 const form = document.getElementById('addProductForm');
 const addBtn = getElement('#AddBtn');
@@ -119,7 +126,7 @@ cancelModalBtn.addEventListener('click',(e)=>{
   e.preventDefault();
  // ModelAddProduct.classList.add('hidden');
  ModelAddProduct.style.display='none';
- 
+ document.getElementById('add-product-modal').checked = false;
 });
 
 const addproductmodalbtn = getElement('#add-product-modal');
@@ -127,6 +134,46 @@ const addproductmodalbtn = getElement('#add-product-modal');
 addproductmodalbtn.addEventListener('click',()=>{
   //ModelAddProduct.classList.remove('hidden');
 ModelAddProduct.style.display='block';
+
 });
 
-/////////loacl storage 
+
+const inputSearch = getElement('#inputSearch');
+let productsListCopy =[...products ];
+
+inputSearch.addEventListener('input',()=>{
+
+  ///clean the table
+   refershList();
+   //return the list filter 
+   debugger;
+  const lstfiltered=searchByProductName(productsListCopy,inputSearch.value);
+  RenderListProducts(lstfiltered);
+});
+
+const searchByProductName=(lstProducts,text)=>{
+    const lst = lstProducts.filter(p=>p.title.toLowerCase().trim().includes(text.toLowerCase().trim()));
+    return lst;
+}
+
+const refershList=()=>{
+  RenderListProducts([{}]);
+}
+
+/// filter 
+///when make search in filter --> you must make search list categories 
+
+const SelectCategories = getElement('#SelectCategories');
+
+ SelectCategories.addEventListener('change',()=>{
+  inputSearch.value='';
+  if(SelectCategories.selectedIndex > 0)  {
+  const categoryId= SelectCategories.options[SelectCategories.selectedIndex].getAttribute('data-id');
+    productsListCopy=products.filter(p=>p.categoryId == categoryId);
+  const lst = products.filter(p=>p.categoryId == categoryId);
+  RenderListProducts(lst);
+
+  }else{
+    RenderListProducts(products);
+  }
+ });

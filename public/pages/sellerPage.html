@@ -57,16 +57,16 @@
           </div>
         </div>
 
-        <div class="flex-none w-70 max-w-md mx-4 md:mx-0">
+        <!-- <div class="flex-none w-70 max-w-md mx-4 md:mx-0">
           <div class="relative w-70">
-            <input
+            <input id="inputSearch"
               type="search"
               placeholder="Search products..."
               class="input input-bordered w-full pl-10 text-sm md:text-base bg-white"
             />
             <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
           </div>
-        </div>
+        </div> -->
 
         <div class="flex-none gap-4 ml-0 md:ml-6 flex items-center">
           <div class="dropdown dropdown-end">
@@ -115,7 +115,24 @@
     </header>
     <!-- Seller Header -->
     <div class="flex justify-between items-center px-6 py-4">
-      <h2 class="text-xl font-semibold text-gray-800">Seller Dashboard</h2>
+        <div class="flex-none w-70 max-w-md mx-4 md:mx-0 ">
+          <div class="relative w-70">
+            <input id="inputSearch"
+              type="search"
+              placeholder="Search products..."
+              class="input input-bordered w-full pl-10 text-sm md:text-base bg-white"
+            />
+            <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+          </div>
+          
+        </div>
+           <select name="categoryId" id="SelectCategories" required  class="select select-bordered w-1/5">
+            <option  selected>All Categories</option>
+            <!-- <option>Electronics</option>
+            <option>Clothing</option>
+            <option>Home</option>
+            <option>Books</option> -->
+          </select>
       <label for="add-product-modal" class="btn btn-primary bg-[#48cae4] border-[#48cae4] text-white">Add Product</label>
     </div>
 
