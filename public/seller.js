@@ -4,15 +4,7 @@ const getElement =(elem)=> document.querySelector(elem);
 
 let productsListCopy =[...products ];
 
-const renderSelect =(elem)=>{
-  categories.forEach(c=>{
-     const categoryOption=document.createElement('option');
-      categoryOption.textContent =c.categoryName;
-      categoryOption.setAttribute('data-id',c.categoryId);
-      elem.appendChild(categoryOption);
-  });
 
-}
   
 
 const RenderListProducts=(lst)=>{
@@ -56,9 +48,10 @@ attachEditEvent();
 
 const getCategory =(id)=>{ return (id) ? categories.find(c=>c.categoryId == id) : ''; }
 
-
+const SelectCategoriesFilter = getElement('#SelectCategories');
 window.onload =()=>{
-     
+  const SelectCategories = getElement('#SelectCategories2');
+
   if (!localStorage.getItem('myProducts')) {
     localStorage.setItem('myProducts', JSON.stringify([]));
    }
@@ -72,6 +65,8 @@ window.onload =()=>{
     Product.currentId = 1;
   }
    RenderListProducts(productsListCopy);
+   renderSelect(categories,SelectCategories);
+   renderSelect(categories,SelectCategoriesFilter);
 }
 
 let countInputs=0;
@@ -98,9 +93,6 @@ function getNonEmptyInputValues(form) {
 
 const form = document.getElementById('addProductForm');
 const addBtn = getElement('#AddBtn');
- const SelectCategories = getElement('#SelectCategories2');
-
-  renderSelect(SelectCategories);
   
 addBtn.addEventListener('click', e => {
   
@@ -124,7 +116,7 @@ addBtn.addEventListener('click', e => {
     form.reset();
     RenderListProducts(productsListCopy);
     getElement('#errorMessage').textContent='';
-
+    SelectCategories.selectedIndex = 0;
   }
   else{
 
@@ -134,9 +126,9 @@ addBtn.addEventListener('click', e => {
 });
 
 
+/////cancel btn
 const cancelModalBtn = getElement('#cancelModalBtn');
 const ModelAddProduct = getElement('#ModelAddProduct');
-
 cancelModalBtn.addEventListener('click',(e)=>{
   e.preventDefault();
  // ModelAddProduct.classList.add('hidden');
@@ -144,8 +136,9 @@ cancelModalBtn.addEventListener('click',(e)=>{
  document.getElementById('add-product-modal').checked = false;
 });
 
-const addproductmodalbtn = getElement('#add-product-modal');
 
+///show model
+const addproductmodalbtn = getElement('#add-product-modal');
 addproductmodalbtn.addEventListener('click',()=>{
   //ModelAddProduct.classList.remove('hidden');
 ModelAddProduct.style.display='block';
@@ -173,16 +166,13 @@ const refershList=()=>{
 }
 
 /// filter 
+
   productsListCopy=JSON.parse(localStorage.getItem('myProducts'));
-
-
-const SelectCategoriesFilter = getElement('#SelectCategories');
-renderSelect(SelectCategoriesFilter);
  SelectCategoriesFilter.addEventListener('change',()=>{
   inputSearch.value='';
-debugger;
-  if(SelectCategoriesFilter.selectedIndex > 0)  {
-    
+
+  if(SelectCategoriesFilter.selectedIndex > 0)  {  
+
     const categoryId= SelectCategoriesFilter.options[SelectCategoriesFilter.selectedIndex].getAttribute('data-id');
     productsSearch=productsListCopy.filter(p=>p.categoryId == categoryId);
      const lst = productsListCopy.filter(p=>p.categoryId == categoryId);
@@ -241,6 +231,13 @@ formEdit.addEventListener('submit',(e)=>{
      localStorage.setItem('myProducts',jsonString);
 
     RenderListProducts(productsListCopy);
+    if(SelectCategoriesFilter.selectedIndex > 0){
+      SelectCategoriesFilter.selectedIndex = formData.categoryId;
+       const lst = productsListCopy.filter(p=>p.categoryId == formData.categoryId);
+    RenderListProducts(lst);
+    }else{
+      SelectCategoriesFilter.selectedIndex = 0;
+    }
     // getElement('#errorMessage').textContent='';
   }
   else{
@@ -254,8 +251,6 @@ formEdit.addEventListener('submit',(e)=>{
 
 
 });
-
-
 
 
 
@@ -305,6 +300,7 @@ function attachEditEvent() {
 
 
 
+////////////fill the form when make edit 
 
  const fillFormDate=(form,product)=>{
     const inputsForm = form.querySelectorAll('input , select ');
@@ -312,14 +308,14 @@ function attachEditEvent() {
     inputsForm.forEach(input=>{
       const key = input.name;
       input.value=product[key];
-    form.querySelector('input[name="id"]').value = product.id;
+      form.querySelector('input[name="id"]').value = product.id;
 
       if(input.tagName.toLowerCase() == 'select')
       {
          const SelectCategoriesEdit = getElement('#SelectCategoriesEdit');
          SelectCategoriesEdit.innerHTML = '';
-        renderSelect(SelectCategoriesEdit);
-        input.selectedIndex = product[key];
+        renderSelect(categories,SelectCategoriesEdit);
+        input.selectedIndex = product[key]-1;
       }
 
     });

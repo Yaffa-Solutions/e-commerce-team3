@@ -45,3 +45,14 @@ const searchByProductName=(lstProducts,text)=>{
     const lst = lstProducts.filter(p=>p.ProductName.toLowerCase().trim().includes(text.toLowerCase().trim()));
     return lst;
 }
+
+
+const renderSelect =(lstCategories,elem)=>{
+  lstCategories.forEach(c=>{
+     const categoryOption=document.createElement('option');
+      categoryOption.textContent =c.categoryName;
+      categoryOption.setAttribute('data-id',c.categoryId);
+      elem.appendChild(categoryOption);
+  });
+
+}
