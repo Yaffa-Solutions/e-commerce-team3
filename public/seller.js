@@ -77,15 +77,19 @@ function getNonEmptyInputValues(form) {
     countInputs = inputs.length;
   inputs.forEach(input => {
     const value = input.value.trim();
-    if ( value !== '' && !(input.tagName.toLowerCase() === 'select' && input.selectedIndex === 0) ) {
-      const key =  input.name || 'unknown';
-      if(input.tagName.toLowerCase() === 'select'){
-        const selectedOption = input.options[input.selectedIndex];
-        data[key]= selectedOption.getAttribute('data-id');
-      }else{
-        data[key]=value;
-      }  
+   if (value !== '') {
+   const key = input.name || 'unknown';
+   if (input.tagName.toLowerCase() === 'select') {
+    const selectedOption = input.options[input.selectedIndex];
+    const selectedDataId = selectedOption.getAttribute('data-id');
+
+    if (selectedDataId) {
+      data[key] = selectedDataId;
     }
+   } else {
+    data[key] = value;
+  }
+}
   });
   return data;
 }
@@ -105,6 +109,11 @@ addBtn.addEventListener('click', e => {
 
   if(Object.keys(formData).length == countInputs){
   
+    const price = parseFloat(formData.price);
+    if (isNaN(price) || price <= 0) {
+      errorMessage.textContent = 'Please enter a valid price greater than 0';
+      return;
+    }
     formData.categoryId = getCategory(formData.categoryId).categoryId;
 
     const newProduct=new Product(formData);
@@ -205,7 +214,8 @@ cancelModalEditBtn.addEventListener('click',(e)=>{
 
 const formEdit = document.querySelector('#EditProductForm');
 formEdit.addEventListener('submit',(e)=>{
-
+  
+  getElement('#errorMessageEdit').textContent='';
   debugger;
   e.preventDefault();
   const EditProductForm = getElement('#EditProductForm');
@@ -215,7 +225,12 @@ formEdit.addEventListener('submit',(e)=>{
   const emptydata = allFields.filter(f=> !userInputData.includes(f));
   
   if(Object.keys(formData).length == countInputs){
-  
+
+     const price = parseFloat(formData.price);
+    if (isNaN(price) || price <= 0) {
+      getElement('#errorMessageEdit').textContent = 'Please enter a valid price greater than 0';
+      return;
+    }
     formData.categoryId = getCategory(formData.categoryId).categoryId;
 
     const OldProduct=productsListCopy.find(p=>p.id == formData.id);
@@ -242,13 +257,12 @@ formEdit.addEventListener('submit',(e)=>{
   }
   else{
 
-    emptydata.includes('categoryId') ? getElement('#errorMessage').textContent =`please Choose the Category` : getElement('#errorMessage').textContent =`please enter data ${emptydata.join(',')}`;
+    getElement('#errorMessageEdit').textContent =`please enter data ${emptydata.join(',')}`;
   }
 
-  
-  document.getElementById('ModelEditProduct').style.display = 'none';
- document.getElementById('add-product-modal').checked = false;
+  document.getElementById('edit-product-modal').checked = false;
 
+   document.getElementById('ModelEditProduct').style.display = 'none';
 
 });
 
