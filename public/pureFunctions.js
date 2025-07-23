@@ -57,9 +57,9 @@ const renderSelect =(lstCategories,elem)=>{
 
 }
 
-module.exports = {
-  createCells,
-  createButton,
-  searchByProductName,
-  renderSelect
-};
+// module.exports = {
+//   createCells,
+//   createButton,
+//   searchByProductName,
+//   renderSelect
+// };
