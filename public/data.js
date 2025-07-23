@@ -73,7 +73,7 @@
   // }
 ];
 
-export const categories = [
+export let categories = [
   { categoryId: 1, categoryName: "fragrances" },
   { categoryId: 2, categoryName: "furniture" },
   { categoryId: 3, categoryName: "beauty" }

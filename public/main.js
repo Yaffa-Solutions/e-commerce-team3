@@ -239,3 +239,14 @@ categorySelect.addEventListener("change", (e) => {
 
 renderCategories();
 renderProducts(products);
+
+
+
+
+
+////////Nada
+
+function logout() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "/e-commerce-team3/public/pages/login.html";
+}
