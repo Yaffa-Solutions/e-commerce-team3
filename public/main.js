@@ -1,3 +1,4 @@
+
 const categorySelect = document.querySelector(".category-filter");
 const productsContainer = document.querySelector(".products-container");
 const priceMinInput = document.querySelector(".price-min");
