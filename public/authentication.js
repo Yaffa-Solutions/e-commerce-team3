@@ -22,11 +22,11 @@ console.log("Password input:", password);
     localStorage.setItem("currentUser", JSON.stringify(user));
 
     if (user.role === "buyer") {
-      window.location.href = "/e-commerce-team3/index.html";
+      window.location.href = "/index.html";
 
     } else if (user.role === "seller") {
       window.location.href = "../pages/sellerPage.html";
-      alert('seller');
+   //   alert('seller');
     }
   } else {
     error.textContent = "Invalid username or password";

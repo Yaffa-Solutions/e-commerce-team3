@@ -1,3 +1,8 @@
+import {products , categories , Product} from './data.js';
+
+   products.length = 0; 
+   products.push(...JSON.parse(localStorage.getItem('myProducts')));
+
 
 const categorySelect = document.querySelector(".category-filter");
 const productsContainer = document.querySelector(".products-container");
@@ -244,9 +249,3 @@ renderProducts(products);
 
 
 
-////////Nada
-
-function logout() {
-  localStorage.removeItem("currentUser");
-  window.location.href = "/e-commerce-team3/public/pages/login.html";
-}

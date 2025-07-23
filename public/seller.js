@@ -28,9 +28,9 @@ const RenderListProducts=(lst)=>{
         tr.appendChild(createCells(product.ProductName,'font-semibold'));
         tr.appendChild(createCells(product.description));
         tr.appendChild(createCells(getCategory(product.categoryId).categoryName));
-        tr.appendChild(createCells(product.price));
+        tr.appendChild(createCells(`${product.price} $`,'text-md font-bold'));
         tr.appendChild(createButton('Edit',' editBtn btn btn-ghost btn-xs mt-4',product.id));
-        tr.appendChild(createButton('Delete','deleteBtn btn btn-ghost btn-xs mt-4',product.id));
+        tr.appendChild(createButton('Delete','deleteBtn btn btn-ghost text-red-500 btn-xs mt-4',product.id));
        
         tbodyProducts.appendChild(tr);
        
