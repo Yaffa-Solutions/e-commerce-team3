@@ -1,3 +1,7 @@
+
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+
 const cartItemsContainer = document.getElementById("cart-items");
 const totalPrice = document.querySelector(".total-price");
 const purchase = document.querySelector(".purchase");
