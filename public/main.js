@@ -4,6 +4,8 @@ import {products , categories , Product} from './data.js';
    products.push(...JSON.parse(localStorage.getItem('myProducts')));
 
 
+import { products,categories } from "./data.js";
+
 const categorySelect = document.querySelector(".category-filter");
 const productsContainer = document.querySelector(".products-container");
 const priceMinInput = document.querySelector(".price-min");
@@ -18,8 +20,8 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 function renderCategories() {
   categories.forEach((cat) => {
     const option = document.createElement("option");
-    option.value = cat.categorie;
-    option.textContent = cat.categorie;
+    option.value = cat.categoryName;
+    option.textContent = cat.categoryName;
     categorySelect.appendChild(option);
   });
 }
@@ -34,9 +36,9 @@ function elementsAppender(parent, children) {
   children.forEach((child) => parent.appendChild(child));
 }
 
-function getCategoryNameById(id) {
-  const category = categories.find((cat) => cat.id === id);
-  return category ? category.categorie : "";
+function getCategoryNameById(categoryId) {
+  const category = categories.find((cat) => cat.categoryId === categoryId);
+  return category ? category.categoryName : "";
 }
 
 function renderProducts(array) {
@@ -204,9 +206,9 @@ function filterProductsByCategory(products, categoryName, categories) {
   if (categoryName === "All") {
     return products;
   }
-  const category = categories.find((cat) => cat.categorie === categoryName);
+  const category = categories.find((cat) => cat.categoryName === categoryName);
   if (!category) return [];
-  return products.filter((product) => product.categoryId === category.id);
+return products.filter((product) => product.categoryId === category.categoryId);
 }
 function filterByPrice(products, minPrice, maxPrice) {
   let filteredPrice = [...products];

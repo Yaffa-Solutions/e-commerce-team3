@@ -33,16 +33,30 @@
 
   <body class="bg-white text-gray-800">
     <!-- Navbar -->
-<header>
-  <div class="navbar bg-white shadow-md px-4 md:px-6 justify-between">
-    <div class="flex items-center gap-4">
-      <a class="text-2xl font-semibold text-[#48cae4] tracking-tight">ShopMart</a>
 
-      <ul class="menu menu-horizontal px-4 text-sm font-medium hidden md:flex">
-        <li><a href="/index.html">Shop</a></li>
-        <!-- <li><a href="/e-commerce-team3/public/pages/sellerdashbored.html">Seller Dashboard</a></li> -->
-      </ul>
-    </div>
+   <header>
+      <div class="navbar bg-white shadow-md px-4 md:px-6">
+        <div class="flex-1 flex items-center gap-4">
+          <a class="text-2xl font-semibold text-[#48cae4] tracking-tight">ShopMart</a>
+
+          <ul class="menu menu-horizontal px-4 text-sm font-medium hidden md:flex">
+            <li><a href="../../index.html">Shop</a></li>
+            <li><a href="sellerdashbored.html">Seller Dashboard</a></li>
+          </ul>
+
+          <div class="dropdown dropdown-left md:hidden">
+            <label tabindex="0" class="btn btn-ghost btn-square">
+              <i class="ri-menu-line text-xl text-gray-600"></i>
+            </label>
+            <ul
+              tabindex="0"
+              class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-white rounded-box w-40"
+            >
+              <li><a href="#">Shop</a></li>
+              <li><a href="#">Seller Dashboard</a></li>
+            </ul>
+          </div>
+        </div>
 
     <div class="dropdown dropdown-end">
       <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
