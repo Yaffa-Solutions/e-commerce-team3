@@ -95,7 +95,7 @@
             >
               <li><a class="justify-between">Profile <span class="badge">New</span></a></li>
               <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li id="logoutBtn"> <a>Logout</a></li>
             </ul>
           </div>
         </div>
@@ -145,7 +145,17 @@
 
       </div>
       </main>
+<script>
+      
+    function logout() {
+    localStorage.removeItem("currentUser");
+    window.location.href = "/public/pages/login.html";
+    }
 
+    document.getElementById('logoutBtn').addEventListener('click',()=>{
+    logout();
+    });
+    </script>
 
       <script src="./public/pureFunction.js"></script>
        <script type="module" src="./public/main.js"></script>
