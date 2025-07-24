@@ -33,6 +33,7 @@
 
   <body class="bg-white text-gray-800">
     <!-- Navbar -->
+
    <header>
       <div class="navbar bg-white shadow-md px-4 md:px-6">
         <div class="flex-1 flex items-center gap-4">
@@ -57,84 +58,73 @@
           </div>
         </div>
 
-        <!-- <div class="flex-none w-70 max-w-md mx-4 md:mx-0">
-          <div class="relative w-70">
-            <input id="inputSearch"
-              type="search"
-              placeholder="Search products..."
-              class="input input-bordered w-full pl-10 text-sm md:text-base bg-white"
-            />
-            <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-          </div>
-        </div> -->
-
-        <div class="flex-none gap-4 ml-0 md:ml-6 flex items-center">
-          <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-              <div class="indicator">
-                <i class="ri-shopping-cart-line text-xl"></i>
-                <span class="badge badge-sm indicator-item bg-blue-400 text-white">8</span>
-              </div>
-            </div>
-            <div
-              tabindex="0"
-              class="card card-compact dropdown-content bg-white z-10 mt-3 w-52 shadow"
-            >
-              <div class="card-body">
-                <span class="text-lg font-bold">8 Items</span>
-                <span class="text-info">Subtotal: $999</span>
-                <div class="card-actions">
-                  <button class="btn btn-primary btn-block bg-[#48cae4] border-[#48cae4] text-white">View cart</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="dropdown dropdown-end">
-            <div
-              tabindex="0"
-              role="button"
-              class="btn btn-ghost btn-circle avatar"
-            >
-              <div
-                class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"
-              >
-                <i class="ri-user-line text-blue-500 text-lg"></i>
-              </div>
-            </div>
-            <ul
-              tabindex="0"
-              class="menu menu-sm dropdown-content bg-white rounded-box z-10 mt-3 w-52 p-2 shadow"
-            >
-              <li><a class="justify-between">Profile <span class="badge">New</span></a></li>
-              <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
-            </ul>
-          </div>
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+          <i class="ri-user-line text-blue-500 text-lg"></i>
         </div>
       </div>
-    </header>
-    <!-- Seller Header -->
-    <div class="flex justify-between items-center px-6 py-4">
-        <div class="flex-none w-70 max-w-md mx-4 md:mx-0 ">
-          <div class="relative w-70">
-            <input id="inputSearch"
-              type="search"
-              placeholder="Search products..."
-              class="input input-bordered w-full pl-10 text-sm md:text-base bg-white"
-            />
-            <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
-          </div>
-          
-        </div>
-           <select name="categoryId" id="SelectCategories" required  class="select select-bordered w-1/5">
-            <option  selected>All Categories</option>
-            <!-- <option>Electronics</option>
-            <option>Clothing</option>
-            <option>Home</option>
-            <option>Books</option> -->
-          </select>
-      <label for="add-product-modal" class="btn btn-primary bg-[#48cae4] border-[#48cae4] text-white">Add Product</label>
+      <ul
+        tabindex="0"
+        class="menu menu-sm dropdown-content bg-white rounded-box z-10 mt-3 w-52 p-2 shadow"
+      >
+        <li><a class="justify-between">Profile <span class="badge">New</span></a></li>
+        <li><a>Settings</a></li>
+        <li id="logoutBtn"><a>Logout</a></li>
+      </ul>
     </div>
+  </div>
+</header>
+
+<!-- <section class="w-full min-h-screen bg-white bg-opacity-90 rounded-none shadow-lg px-8 py-8 flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-12"> -->
+
+<section class="w-full bg-white bg-opacity-90 rounded-none  shadow-lg px-8 py-8 flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-12">
+  <div class="flex-1 max-w-xl mx-auto md:mx-0">
+    <h1 class="text-6xl font-extrabold text-[#48cae4] mb-6 drop-shadow-lg leading-tight">
+      Seller Dashboard
+    </h1>
+    <p class="text-gray-700 text-xl max-w-lg mx-auto md:mx-0">
+      Manage your products easily, add new items, edit details, and keep track of your store inventory — all in one powerful and elegant dashboard.
+    </p>
+  </div>
+  <div class="flex-1 max-w-lg mx-auto md:mx-0">
+    <div class="transform rotate-[-6deg] hover:rotate-0 transition-transform duration-500 shadow-2xl rounded-xl overflow-hidden mb-6">
+      <img
+        src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
+        alt="Seller dashboard illustration"
+        class="rounded-xl w-full object-cover"
+      />
+    </div>   
+  </div>
+</section>
+    
+    <!-- Seller Header -->
+<div class="flex items-center max-w-7xl mx-auto px-6 mt-16 justify-between">
+  <div class="flex items-center gap-4 w-3/5">
+    <div class="flex-none w-70 max-w-md">
+      <div class="relative w-70">
+        <input
+          id="inputSearch"
+          type="search"
+          placeholder="Search products..."
+          class="input input-bordered w-full pl-10 text-sm md:text-base bg-white"
+        />
+        <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+      </div>
+    </div>
+
+    <select name="categoryId"  id="SelectCategories"  required  class="select select-bordered w-1/5">
+      <option selected>All Categories</option>
+    </select>
+  </div>
+
+  <label
+    for="add-product-modal"
+    class="btn btn-primary bg-[#48cae4] border-[#48cae4] text-white"
+  >
+    Add Product
+  </label>
+</div>
 
     <!-- Modal -->
     <input type="checkbox" id="add-product-modal" class="modal-toggle" />
@@ -209,10 +199,10 @@
     </div>
 
     <!-- Product Table -->
-    <div class="overflow-x-auto px-6">
+  <div class="overflow-x-auto px-6 max-w-7xl mx-auto my-16">
       <table class="table">
-        <thead>
-          <tr class="text-gray-600">
+        <thead class="bg-[#48cae4]  text-white ">
+          <tr class="text-white text-md text-bold p-2">
             <th>Image</th>
             <th>Product name</th>
             <th>Details</th>
@@ -221,7 +211,7 @@
             <th>Operation</th>
           </tr>
         </thead>
-        <tbody class="text-sm" id="tbodyProducts">
+        <tbody class="text-md" id="tbodyProducts">
           <!-- <tr>
             <td><div class=""><div class="mask mask-squircle h-12 w-12"><img src="https://img.daisyui.com/images/profile/demo/2@94.webp" /></div></div></td>
             <td><div class="font-semibold">Hart Hagerty</div></td>
@@ -234,9 +224,34 @@
         </tbody> -->
         
       </table>
+      <p class="text-gray-500 text-sm pl-8 pt-8 " id="productCount"></p>
     </div>   
+    <footer class="bg-gray-100 text-gray-600 mt-12 shadow-inner">
+    <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between">
+    <p class="text-sm text-center md:text-left">&copy; 2025 ShopMart. All rights reserved.</p>
+
+    <div class="flex space-x-4 mt-2 md:mt-0">
+      <a href="#" class="hover:text-[#48cae4] transition">Privacy Policy</a>
+      <a href="#" class="hover:text-[#48cae4] transition">Terms of Service</a>
+      <a href="#" class="hover:text-[#48cae4] transition">Contact</a>
+    </div>
+   </div>
+    </footer>
+
+    <script>
+      
+    function logout() {
+    localStorage.removeItem("currentUser");
+    window.location.href = "/public/pages/login.html";
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click',()=>{
+    logout();
+    });
+    </script>
       <script  src="../pureFunctions.js"></script>
-     <script type="module" src="../seller.js"></script>
-    
+       <script type="module" src="../seller.js"></script>
+   
+
   </body>
 </html>

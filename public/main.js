@@ -1,3 +1,8 @@
+import {products , categories , Product} from './data.js';
+
+   products.length = 0; 
+   products.push(...JSON.parse(localStorage.getItem('myProducts')));
+
 
 import { products,categories } from "./data.js";
 
@@ -241,3 +246,8 @@ categorySelect.addEventListener("change", (e) => {
 
 renderCategories();
 renderProducts(products);
+
+
+
+
+

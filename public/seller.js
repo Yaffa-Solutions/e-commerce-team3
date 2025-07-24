@@ -2,7 +2,7 @@ import {products , categories , Product} from './data.js';
 
 const getElement =(elem)=> document.querySelector(elem);
 
-let productsListCopy =[...products ];
+// let products =[...products ];
 
 
   
@@ -28,9 +28,9 @@ const RenderListProducts=(lst)=>{
         tr.appendChild(createCells(product.ProductName,'font-semibold'));
         tr.appendChild(createCells(product.description));
         tr.appendChild(createCells(getCategory(product.categoryId).categoryName));
-        tr.appendChild(createCells(product.price));
+        tr.appendChild(createCells(`${product.price} $`,'text-md font-bold'));
         tr.appendChild(createButton('Edit',' editBtn btn btn-ghost btn-xs mt-4',product.id));
-        tr.appendChild(createButton('Delete','deleteBtn btn btn-ghost btn-xs mt-4',product.id));
+        tr.appendChild(createButton('Delete','deleteBtn btn btn-ghost text-red-500 btn-xs mt-4',product.id));
        
         tbodyProducts.appendChild(tr);
        
@@ -39,11 +39,10 @@ const RenderListProducts=(lst)=>{
     }
 
     }) : console.log('the length list 0');
-    
-attachEditEvent();
- attachDeleteEvent();
+      getElement('#productCount').textContent = `Total Products: ${lst.length}`;
 
-
+    attachEditEvent();
+    attachDeleteEvent();
 }
 
 const getCategory =(id)=>{ return (id) ? categories.find(c=>c.categoryId == id) : ''; }
@@ -55,16 +54,16 @@ window.onload =()=>{
   if (!localStorage.getItem('myProducts')) {
     localStorage.setItem('myProducts', JSON.stringify([]));
    }
-  const retrievedJsonString = localStorage.getItem('myProducts');
-   productsListCopy = JSON.parse(retrievedJsonString);
-
-   if (productsListCopy.length > 0) {
-    const maxId = Math.max(...productsListCopy.map(p => p.id));
+ // let retrievedJsonString = localStorage.getItem('myProducts');
+   products.length = 0; 
+   products.push(...JSON.parse(localStorage.getItem('myProducts')));
+   if (products.length > 0) {
+    const maxId = Math.max(...products.map(p => p.id));
     Product.currentId = maxId + 1;
   } else {
     Product.currentId = 1;
   }
-   RenderListProducts(productsListCopy);
+   RenderListProducts(products);
    renderSelect(categories,SelectCategories);
    renderSelect(categories,SelectCategoriesFilter);
 }
@@ -117,15 +116,16 @@ addBtn.addEventListener('click', e => {
     formData.categoryId = getCategory(formData.categoryId).categoryId;
 
     const newProduct=new Product(formData);
-    productsListCopy.push(newProduct);
+    products.unshift(newProduct);
     console.log(products);
    ///convert the array to json 
-    const jsonString = JSON.stringify(productsListCopy);
+    const jsonString = JSON.stringify(products);
     localStorage.setItem('myProducts',jsonString);
     form.reset();
-    RenderListProducts(productsListCopy);
+    RenderListProducts(products);
     getElement('#errorMessage').textContent='';
     SelectCategories.selectedIndex = 0;
+    inputSearch.value='';
   }
   else{
 
@@ -164,7 +164,7 @@ inputSearch.addEventListener('input',()=>{
    debugger;
    //return the list filter 
    ///base list if the user search without filter 
-     const baseList = productsSearch.length > 0 ? productsSearch : productsListCopy;
+     const baseList = productsSearch.length > 0 ? productsSearch : products;
 
   const lstfiltered=searchByProductName(baseList,inputSearch.value);
   RenderListProducts(lstfiltered);
@@ -176,24 +176,24 @@ const refershList=()=>{
 
 /// filter 
 
-  productsListCopy=JSON.parse(localStorage.getItem('myProducts'));
+ products.length = 0;
+ products.push(...JSON.parse(localStorage.getItem('myProducts')));
+
  SelectCategoriesFilter.addEventListener('change',()=>{
   inputSearch.value='';
 
   if(SelectCategoriesFilter.selectedIndex > 0)  {  
 
     const categoryId= SelectCategoriesFilter.options[SelectCategoriesFilter.selectedIndex].getAttribute('data-id');
-    productsSearch=productsListCopy.filter(p=>p.categoryId == categoryId);
-     const lst = productsListCopy.filter(p=>p.categoryId == categoryId);
+    productsSearch=products.filter(p=>p.categoryId == categoryId);
+     const lst = products.filter(p=>p.categoryId == categoryId);
     RenderListProducts(lst);
   }else{
     //alert('done');
-    productsSearch=productsListCopy;
+    productsSearch=products;
     RenderListProducts(JSON.parse(localStorage.getItem('myProducts')));
   }
  });
-
-
 
 
  //////////////Edit 
@@ -204,8 +204,8 @@ const ModelEditProduct = getElement('#ModelEditProduct');
 cancelModalEditBtn.addEventListener('click',(e)=>{
   e.preventDefault();
  // ModelAddProduct.classList.add('hidden');
+ document.getElementById('edit-product-modal').checked = false;
  ModelEditProduct.style.display='none';
- document.getElementById('add-product-modal').checked = false;
 });
 
 
@@ -233,7 +233,7 @@ formEdit.addEventListener('submit',(e)=>{
     }
     formData.categoryId = getCategory(formData.categoryId).categoryId;
 
-    const OldProduct=productsListCopy.find(p=>p.id == formData.id);
+    const OldProduct=products.find(p=>p.id == formData.id);
 
     OldProduct.ProductName = formData.ProductName;
     OldProduct.description = formData.description;
@@ -242,17 +242,18 @@ formEdit.addEventListener('submit',(e)=>{
     OldProduct.categoryId = formData.categoryId;
   
   
-    const jsonString = JSON.stringify(productsListCopy);
+    const jsonString = JSON.stringify(products);
      localStorage.setItem('myProducts',jsonString);
 
-    RenderListProducts(productsListCopy);
+    RenderListProducts(products);
     if(SelectCategoriesFilter.selectedIndex > 0){
       SelectCategoriesFilter.selectedIndex = formData.categoryId;
-       const lst = productsListCopy.filter(p=>p.categoryId == formData.categoryId);
+       const lst = products.filter(p=>p.categoryId == formData.categoryId);
     RenderListProducts(lst);
     }else{
       SelectCategoriesFilter.selectedIndex = 0;
     }
+    inputSearch.value='';
     // getElement('#errorMessage').textContent='';
   }
   else{
@@ -277,11 +278,11 @@ formEdit.addEventListener('submit',(e)=>{
 
       const productId=elem.getAttribute('data-id');
 
-     const index=productsListCopy.findIndex(p=> p.id == productId);
+     const index=products.findIndex(p=> p.id == productId);
      if(index > -1 ){
-       productsListCopy.splice(index,1);
-        localStorage.setItem('myProducts', JSON.stringify(productsListCopy)); 
-        RenderListProducts(productsListCopy);
+       products.splice(index,1);
+        localStorage.setItem('myProducts', JSON.stringify(products)); 
+        RenderListProducts(products);
        }
    
     });
@@ -300,7 +301,7 @@ function attachEditEvent() {
   newEditBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-id');
-      const product = productsListCopy.find(p => p.id == id);
+      const product = products.find(p => p.id == id);
       if (product) {
         const ModelEditProduct = getElement('#ModelEditProduct');
         document.getElementById('edit-product-modal').checked = true;
