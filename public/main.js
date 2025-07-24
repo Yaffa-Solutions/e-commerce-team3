@@ -3,9 +3,6 @@ import {products , categories , Product} from './data.js';
    products.length = 0; 
    products.push(...JSON.parse(localStorage.getItem('myProducts')));
 
-
-import { products,categories } from "./data.js";
-
 const categorySelect = document.querySelector(".category-filter");
 const productsContainer = document.querySelector(".products-container");
 const priceMinInput = document.querySelector(".price-min");
